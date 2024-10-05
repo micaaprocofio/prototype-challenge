@@ -6,7 +6,8 @@ export default function Game()
 {
     const canvasRef = useRef(null);  // Create a reference to the canvas element
 
-    useEffect(() => {
+    useEffect(() => 
+    {
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");  
 
@@ -130,6 +131,11 @@ export default function Game()
     }, []);
 
     return (
-        <canvas ref={canvasRef} id="gameCanvas" width="480" height="320"></canvas>
+        <div style={{display:"flex"}}>
+            <canvas ref={canvasRef} id="gameCanvas" width="480" height="320"></canvas>
+            <div id="ph">
+                <div id="line"/>
+            </div>
+        </div>
     );
 }
