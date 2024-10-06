@@ -1,0 +1,28 @@
+#gameCanvas
+{
+    background-color: lightblue;
+    display: block;
+    margin: 0 auto;
+}
+
+#ph
+{
+    width: 160px;
+    height: 500px;
+    align-items: end;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url("../Game/img/PH-water-level.png");
+}
+
+#line
+{
+    background-color: black;
+    width: 50px;
+    height: 5px;
+    position: relative;
+}
