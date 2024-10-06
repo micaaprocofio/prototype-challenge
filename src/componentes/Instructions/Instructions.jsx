@@ -33,7 +33,7 @@ function Instractions() {
                         <ul className="items icons">
                             <li className="item-icons">Objects that Decrease pH:
                                 <ul>
-                                    <li> <FontAwesomeIcon icon={faLemon} style={{color: "#FFD43B", fontSize: "22px"}}  /> Limon</li>
+                                    <li> <FontAwesomeIcon icon={faLemon} style={{color: "#FFD43B", fontSize: "22px"}}  /> Lemon</li>
                                     <li><FontAwesomeIcon icon={faBottleDroplet} style={{color: "#B1DD8C"}} className="icon"/> Vinegar</li>
                                 </ul>
                             </li>

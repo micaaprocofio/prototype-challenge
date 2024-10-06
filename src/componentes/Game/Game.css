@@ -1,10 +1,18 @@
 #gameCanvas
 {
-    background-color: lightblue;
+    background-image: url('../Game/img/background-gamex4.png');
+    background-size:1100px;
     display: block;
     margin: 0 auto;
+    background-position: center;
 }
 
+#game{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 #ph
 {
     width: 160px;

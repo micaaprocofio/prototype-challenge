@@ -11,7 +11,8 @@ export default function Game()
     var phLevel = 7
     var points = 0
     var marginTop = 0
-
+    let lasagnaCaught = false;
+    
     useEffect(() => 
     {
         var lastDirection = "right"
@@ -37,6 +38,7 @@ export default function Game()
             y: 0,
             speed: 1.3
         };
+        console.log("lasagna creada")
 
         const lasagnaImg = new Image();
         lasagnaImg.src = lasagnaImageSrc;
@@ -53,6 +55,7 @@ export default function Game()
 
             function drawLasagnaAndPlayer() 
             {
+
                 ctx.drawImage(lasagnaImg, lasagna.x, lasagna.y, lasagna.width, lasagna.height);
 
                 let imageWidth = 100;
@@ -92,8 +95,29 @@ export default function Game()
             function moveLasagna() 
             {
                 lasagna.y += lasagna.speed;
-                if (lasagna.y + lasagna.height > canvas.height)
+
+                if (lasagna.y + lasagna.height >= canvas.height) 
                 {
+                    if (!lasagnaCaught) 
+                    {
+                        marginTop += 3;
+                        phLevel -= 0.5;
+                        const lineElement = document.getElementById('line');
+
+                        if (lineElement) 
+                        {
+                            lineElement.style.marginTop = marginTop + 'rem';
+                        }
+                        console.log("La lasaña llegó al final");
+
+                        if (phLevel < 6.0) 
+                        {
+                            alert('Has perdido. El pH ha bajado demasiado.');
+                            window.location.reload();
+                        }
+                    }
+
+                    lasagnaCaught = false;
                     lasagna.y = 0;
                     lasagna.x = Math.random() * (canvas.width - lasagna.width);
                 }
@@ -102,35 +126,23 @@ export default function Game()
             function detectCollision() 
             {
                 if (
-                    player.x < lasagna.x + lasagna.width &&
-                    player.x + player.width > lasagna.x &&
-                    player.y < lasagna.y + lasagna.height &&
-                    player.y + player.height > lasagna.y
+                    player.x <= lasagna.x + lasagna.width &&
+                    player.x + player.width >= lasagna.x &&
+                    player.y <= lasagna.y + lasagna.height &&
+                    player.y + player.height >= lasagna.y
                 ) 
                 {
-                    if (phLevel === 6.0)
-                    {
-                        alert('Has perdido')
-                        window.location.reload()
-                    }
+                
                     lasagna.y = 0;
                     lasagna.x = Math.random() * (canvas.width - lasagna.width);
-                    points = points + 1;
-                    marginTop = marginTop + 3
-                    phLevel = phLevel - 0.5
-                    
+                    points += 1;
                     const pointsElement = document.getElementById('points');
-                    const lineElement = document.getElementById('line');
+                    lasagnaCaught = true;
                     
-                    if (pointsElement) {
-                      pointsElement.innerText = `Points: ${points}`;
+                    if (pointsElement) 
+                    {
+                        pointsElement.innerText = `Points: ${points}`;
                     }
-                
-                    if (lineElement) {
-                      lineElement.style.marginTop = marginTop + 'rem';
-                    }
-
-                    console.log("Lasaña atrapada!");
                 }
             }
 
@@ -170,10 +182,10 @@ export default function Game()
             {
                 clear();
                 drawLasagnaAndPlayer();
+                detectCollision();
                 movePlayer();
                 moveLasagna();
                 pointsDifficulty();
-                detectCollision();
                 requestAnimationFrame(update);
             }
 
@@ -209,7 +221,7 @@ export default function Game()
     }, []);
 
     return (
-        <div>
+        <div id='game'>
             <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <label id='points'>Points: {points}</label>
             </div>
