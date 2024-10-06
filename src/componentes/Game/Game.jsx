@@ -1,14 +1,21 @@
 import { useEffect, useRef, useState} from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
+import robotImage from '../Game/img/robot.png'
+import robotImageReverse from '../Game/img/robot-reverse.png'
 
 export default function Game() 
 {
     const canvasRef = useRef(null);  // Create a reference to the canvas element
-    var points = 0;
+    
+    var phLevel = 7
+    var points = 0
+    var marginTop = 0
 
     useEffect(() => 
     {
+        var lastDirection = "right"
+
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");  
         
@@ -34,19 +41,44 @@ export default function Game()
         const lasagnaImg = new Image();
         lasagnaImg.src = lasagnaImageSrc;
 
+        const robotImg = new Image();
+        robotImg.src = robotImage;
+
+        const robotImgReverse = new Image();
+        robotImgReverse.src = robotImageReverse;
+
         lasagnaImg.onload = () => 
         {
             console.log("Image loaded successfully");
 
-            function drawPlayer() 
-            {
-                ctx.fillStyle = 'red';
-                ctx.fillRect(player.x, player.y, player.width, player.height);
-            }
-
-            function drawLasagna() 
+            function drawLasagnaAndPlayer() 
             {
                 ctx.drawImage(lasagnaImg, lasagna.x, lasagna.y, lasagna.width, lasagna.height);
+
+                let imageWidth = 100;
+                let imageHeight = 100;
+
+                if (player.dx > 0 ) 
+                {
+                    ctx.drawImage(robotImg, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    lastDirection = "right"
+                } 
+                else if (player.dx < 0) 
+                {
+                    ctx.drawImage(robotImgReverse, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    lastDirection = "left"
+                }
+                else
+                {
+                    if (lastDirection === "right") 
+                    {
+                        ctx.drawImage(robotImg, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    } 
+                    else if (lastDirection === "left") 
+                    {
+                        ctx.drawImage(robotImgReverse, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    }
+                }
             }
 
             function movePlayer() 
@@ -76,35 +108,44 @@ export default function Game()
                     player.y + player.height > lasagna.y
                 ) 
                 {
+                    if (phLevel === 6.0)
+                    {
+                        alert('Has perdido')
+                        window.location.reload()
+                    }
                     lasagna.y = 0;
                     lasagna.x = Math.random() * (canvas.width - lasagna.width);
-                    points = points +1 ;
+                    points = points + 1;
+                    marginTop = marginTop + 3
+                    phLevel = phLevel - 0.5
                     document.getElementById('points').innerText = `Points: ${points}`;
+                    document.getElementById('line').style.marginTop = marginTop + 'rem'
+                    
                     console.log("Lasaña atrapada!");
                 }
             }
 
             function pointsDifficulty()
             {
-                if(points>12)
+                if (points > 12)
                 {
                     lasagna.speed = 1.6;
                 }
-                if (points>25)
+                if (points > 25)
                 {
                     lasagna.speed = 2;
                 }
-                if (points>45)
+                if (points > 45)
                 {
                     lasagna.speed = 2.3;
                     player.speed = 3.3;
                 }
-                if (points>80)
+                if (points > 80)
                 {
                     lasagna.speed = 2.7;
                     player.speed = 4.0;
                 }
-                if (points>120)
+                if (points > 120)
                 {
                     lasagna.speed = 3.3;
                     player.speed = 5;
@@ -119,8 +160,7 @@ export default function Game()
             function update() 
             {
                 clear();
-                drawPlayer();
-                drawLasagna();
+                drawLasagnaAndPlayer();
                 movePlayer();
                 moveLasagna();
                 pointsDifficulty();
@@ -134,15 +174,16 @@ export default function Game()
                 {
                     player.dx = player.speed;
                 } 
-                else if (e.key === "ArrowLeft" || e.key === "Left") 
+                if (e.key === "ArrowLeft" || e.key === "Left") 
                 {
                     player.dx = -player.speed;
+                    console.log(phLevel)
                 }
             });
 
             document.addEventListener("keyup", (e) => 
-                {
-                if (e.key === "ArrowRight" || e.key === "Right" || e.key === "ArrowLeft" || e.key === "Left") 
+            {
+                if (e.key === "ArrowRight" || e.key === "Right" || e.key === "ArrowLeft" || e.key === "Left")
                 {
                     player.dx = 0;
                 }
@@ -160,7 +201,7 @@ export default function Game()
 
     return (
         <div>
-            <div>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
                 <label id='points'>Points: {points}</label>
             </div>
             <div id='background' style={{display:"flex"}}>
@@ -169,10 +210,6 @@ export default function Game()
                     <div id="line"/>
                 </div>
             </div>
-            
-        </div>
-
-        
-        
+        </div>      
     );
 }

@@ -11,12 +11,18 @@ function App() {
         <div className="App">
 
       <header className="App-header">
-      <Game/>
+      <Routes>
+        <Route path="/" element={<Game />}>
+          
+        </Route>
+      </Routes>
       </header>
     </div>
     </Router>
   );
 }
+
+
 
 export default App;
 
