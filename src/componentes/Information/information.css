@@ -1,0 +1,62 @@
+@import url(https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css);
+
+@keyframes ripple {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
+  }
+
+.information-title {
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center; 
+    color: #000;
+    margin-top: 20px;
+    margin-bottom: 35px;
+}
+
+.information-second-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center; 
+    color: #000;
+    margin-top: 20px;
+    margin-bottom: 25px; /* Añade espacio debajo del título */
+}
+
+.information-container {
+    max-width: 800px;
+    max-height: 1000px;
+    width: 100%;
+    padding: 30px;
+    color: #000;
+    border-radius: 10px;
+    background-color: #81caf195;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+
+.information-container p {
+    font-size: 1.2rem; /* Puedes ajustar este valor según el tamaño deseado */
+    line-height: 1.6;
+    text-align: left; /* Ajustar si quieres alinear el texto */
+}
+
+.information-third-title {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: center; 
+    color: #000;
+    margin-top: 20px;
+    margin-bottom: 25px; /* Añade espacio debajo del título */
+}
+
+.min-h-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './Main.css';
 import Instructions from '../Instructions/Instructions.jsx';
 import Game from '../Game/Game.jsx';
+import Information from '../Information/information.jsx';
 
 function Main() {
     const [showPopup, setShowPopup] = useState(false);
@@ -25,6 +26,7 @@ function Main() {
         <container className="container-fluid">
             { information && (
                 <div>
+                    <Information/>
                     <div className='mt-3 close-btn-container'>
                         <button className='close-btn' onClick={toggleInformation}>Close</button>
                     </div>
