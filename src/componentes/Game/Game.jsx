@@ -118,9 +118,18 @@ export default function Game()
                     points = points + 1;
                     marginTop = marginTop + 3
                     phLevel = phLevel - 0.5
-                    document.getElementById('points').innerText = `Points: ${points}`;
-                    document.getElementById('line').style.marginTop = marginTop + 'rem'
                     
+                    const pointsElement = document.getElementById('points');
+                    const lineElement = document.getElementById('line');
+                    
+                    if (pointsElement) {
+                      pointsElement.innerText = `Points: ${points}`;
+                    }
+                
+                    if (lineElement) {
+                      lineElement.style.marginTop = marginTop + 'rem';
+                    }
+
                     console.log("Lasaña atrapada!");
                 }
             }

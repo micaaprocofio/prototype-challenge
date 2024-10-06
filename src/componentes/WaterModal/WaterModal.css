@@ -1,38 +1,54 @@
 .rain-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background: #539dbc;
-    z-index: -1;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #539dbc;
+  z-index: -1;
+}
+
+.rain-drop1, .rain-drop2, .rain-drop3, .rain-drop4 {
+  position: absolute;
+  top: -10px;
+
+  background: rgba(113, 228, 238, 0.5); 
+  border-radius: 50%;
+  animation-name: up;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
   
-  .rain-drop {
-    position: absolute;
-    top: -10px;
-    width: 30px;
-    height: 30px;
-    background: rgba(113, 228, 238, 0.5); 
-    border-radius: 50%;
-    animation-name: fall;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    
+}
+
+.rain-drop1 {
+  width: 10px;
+  height: 10px;
+}
+
+.rain-drop2 {
+  width: 30px;
+  height: 30px;
+}
+
+.rain-drop3 {
+  width: 50px;
+  height: 50px;
+}
+
+.rain-drop4 {
+  width: 70px;
+  height: 70px;
+}
+
+@keyframes up {
+  0% {
+    transform: translateY(100vh); 
   }
+  100% {
+    transform: translateY(-100vh); 
+  }
+}
+
   
-  @keyframes fall {
-    0% {
-      top: -10px;
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      top: 100vh;
-      opacity: 0;
-    }
-  }
   
