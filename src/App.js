@@ -1,23 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
-import Instructions from './componentes/Instructions/Instructions.jsx';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Game from './componentes/Game/Game';
+import Main from './componentes/Main/Main';
+import './index.css';
+import WaterModal from './componentes/WaterModal/WaterModal';
 
 function App() {
-  return (
-  
+  return ( 
     <Router>
-        <div className="App">
-
-      <header className="App-header">
-      <Routes>
-        <Route path="/" element={<Game />}>
-          
-        </Route>
-      </Routes>
-      </header>
-    </div>
+      <div className="App">
+        <header className="App-header">
+          <div className="col-md-12">
+          <WaterModal/> 
+          <Main/>       
+          </div>
+        </header>
+      </div>
     </Router>
   );
 }

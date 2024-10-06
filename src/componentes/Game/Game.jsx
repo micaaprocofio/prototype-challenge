@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState} from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
-import robotImage from '../Game/img/robot.png'
 import robotImageReverse from '../Game/img/robot-reverse.png'
 
 export default function Game() 
 {
     const canvasRef = useRef(null);  // Create a reference to the canvas element
-    
+    const robotImage = process.env.PUBLIC_URL + '/robot.png';
+
     var phLevel = 7
     var points = 0
     var marginTop = 0
