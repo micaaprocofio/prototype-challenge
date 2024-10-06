@@ -1,10 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
+import robotImage from '../Game/img/robot.png'
+import robotImageReverse from '../Game/img/robot-reverse.png'
 
 export default function Game() 
 {
     const canvasRef = useRef(null);  // Create a reference to the canvas element
+    var lastDirection = "right"
 
     useEffect(() => 
     {
@@ -19,7 +22,7 @@ export default function Game()
             height: 50,
             x: canvas.width / 2 - 25,
             y: canvas.height - 60,
-            speed: 5,
+            speed: 3,
             dx: 0
         };
 
@@ -29,25 +32,50 @@ export default function Game()
             height: 30,
             x: Math.random() * (canvas.width - 30),
             y: 0,
-            speed: 2
+            speed: 1.5
         };
 
         const lasagnaImg = new Image();
         lasagnaImg.src = lasagnaImageSrc;
 
+        const robotImg = new Image();
+        robotImg.src = robotImage;
+
+        const robotImgReverse = new Image();
+        robotImgReverse.src = robotImageReverse;
+
         lasagnaImg.onload = () => 
         {
             console.log("Image loaded successfully");
 
-            function drawPlayer() 
-            {
-                ctx.fillStyle = 'red';
-                ctx.fillRect(player.x, player.y, player.width, player.height);
-            }
-
-            function drawLasagna() 
+            function drawLasagnaAndPlayer() 
             {
                 ctx.drawImage(lasagnaImg, lasagna.x, lasagna.y, lasagna.width, lasagna.height);
+
+                let imageWidth = 100;
+                let imageHeight = 100;
+
+                if (player.dx > 0 ) 
+                {
+                    ctx.drawImage(robotImg, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    lastDirection = "right"
+                } 
+                else if (player.dx < 0) 
+                {
+                    ctx.drawImage(robotImgReverse, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    lastDirection = "left"
+                }
+                else
+                {
+                    if (lastDirection === "right") 
+                    {
+                        ctx.drawImage(robotImg, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    } 
+                    else if (lastDirection === "left") 
+                    {
+                        ctx.drawImage(robotImgReverse, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
+                    }
+                }
             }
 
             function movePlayer() 
@@ -92,8 +120,7 @@ export default function Game()
             function update() 
             {
                 clear();
-                drawPlayer();
-                drawLasagna();
+                drawLasagnaAndPlayer();
                 movePlayer();
                 moveLasagna();
                 detectCollision();
@@ -106,15 +133,15 @@ export default function Game()
                 {
                     player.dx = player.speed;
                 } 
-                else if (e.key === "ArrowLeft" || e.key === "Left") 
+                if (e.key === "ArrowLeft" || e.key === "Left") 
                 {
                     player.dx = -player.speed;
                 }
             });
 
             document.addEventListener("keyup", (e) => 
-                {
-                if (e.key === "ArrowRight" || e.key === "Right" || e.key === "ArrowLeft" || e.key === "Left") 
+            {
+                if (e.key === "ArrowRight" || e.key === "Right" || e.key === "ArrowLeft" || e.key === "Left")
                 {
                     player.dx = 0;
                 }
