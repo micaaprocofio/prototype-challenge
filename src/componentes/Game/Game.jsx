@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState} from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
 import robotImage from '../Game/img/robot.png'
@@ -7,22 +7,25 @@ import robotImageReverse from '../Game/img/robot-reverse.png'
 export default function Game() 
 {
     const canvasRef = useRef(null);  // Create a reference to the canvas element
-    var lastDirection = "right"
+    
+    var phLevel = 7
+    var points = 0
+    var marginTop = 0
 
     useEffect(() => 
     {
+        var lastDirection = "right"
+
         const canvas = canvasRef.current;
         const ctx = canvas.getContext("2d");  
-
-        var points = 0
-
+        
         const player = 
         {
             width: 50,
             height: 50,
             x: canvas.width / 2 - 25,
             y: canvas.height - 60,
-            speed: 3,
+            speed: 2.5,
             dx: 0
         };
 
@@ -32,7 +35,7 @@ export default function Game()
             height: 30,
             x: Math.random() * (canvas.width - 30),
             y: 0,
-            speed: 1.5
+            speed: 1.3
         };
 
         const lasagnaImg = new Image();
@@ -105,10 +108,47 @@ export default function Game()
                     player.y + player.height > lasagna.y
                 ) 
                 {
+                    if (phLevel === 6.0)
+                    {
+                        alert('Has perdido')
+                        window.location.reload()
+                    }
                     lasagna.y = 0;
                     lasagna.x = Math.random() * (canvas.width - lasagna.width);
-                    points = points + 1
+                    points = points + 1;
+                    marginTop = marginTop + 3
+                    phLevel = phLevel - 0.5
+                    document.getElementById('points').innerText = `Points: ${points}`;
+                    document.getElementById('line').style.marginTop = marginTop + 'rem'
+                    
                     console.log("Lasaña atrapada!");
+                }
+            }
+
+            function pointsDifficulty()
+            {
+                if (points > 12)
+                {
+                    lasagna.speed = 1.6;
+                }
+                if (points > 25)
+                {
+                    lasagna.speed = 2;
+                }
+                if (points > 45)
+                {
+                    lasagna.speed = 2.3;
+                    player.speed = 3.3;
+                }
+                if (points > 80)
+                {
+                    lasagna.speed = 2.7;
+                    player.speed = 4.0;
+                }
+                if (points > 120)
+                {
+                    lasagna.speed = 3.3;
+                    player.speed = 5;
                 }
             }
 
@@ -123,6 +163,7 @@ export default function Game()
                 drawLasagnaAndPlayer();
                 movePlayer();
                 moveLasagna();
+                pointsDifficulty();
                 detectCollision();
                 requestAnimationFrame(update);
             }
@@ -136,6 +177,7 @@ export default function Game()
                 if (e.key === "ArrowLeft" || e.key === "Left") 
                 {
                     player.dx = -player.speed;
+                    console.log(phLevel)
                 }
             });
 
@@ -158,11 +200,16 @@ export default function Game()
     }, []);
 
     return (
-        <div style={{display:"flex"}}>
-            <canvas ref={canvasRef} id="gameCanvas" width="480" height="320"></canvas>
-            <div id="ph">
-                <div id="line"/>
+        <div>
+            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+                <label id='points'>Points: {points}</label>
             </div>
-        </div>
+            <div id='background' style={{display:"flex"}}>
+                <canvas ref={canvasRef} id="gameCanvas" width="800" height="500"></canvas>
+                <div id="ph">
+                    <div id="line"/>
+                </div>
+            </div>
+        </div>      
     );
 }
