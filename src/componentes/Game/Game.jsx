@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
 import robotImageReverse from '../Game/img/robot-reverse.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSoap, faJugDetergent, faLemon, faBottleDroplet} from '@fortawesome/free-solid-svg-icons';
 
 export default function Game() 
 {
@@ -17,6 +15,7 @@ export default function Game()
 
     let marginTop = 0;
     let lastDirection = "right";
+
 
     const player = useRef({
         width: 50,
@@ -143,7 +142,7 @@ export default function Game()
             }
 
             setLasagnaCaught(false)
-            lasagna.current.y = -30; 
+            lasagna.current.y = -30; // Reiniciar la lasaña fuera de la vista
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
         }
     }
@@ -158,7 +157,7 @@ export default function Game()
             player.current.y + player.current?.height >= lasagna.current.y
         ) 
         {
-            lasagna.current.y = -30; 
+            lasagna.current.y = -30; // Reiniciar la lasaña fuera de la vista
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
             setPoints((prev) => prev + 1);
             setLasagnaCaught(true)

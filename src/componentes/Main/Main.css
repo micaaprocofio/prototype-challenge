@@ -34,6 +34,12 @@
     width: 300px; 
 }
   
+#title{
+    font-size: 50px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #10506b;
+}
+
 .close-btn-container{
     display: flex ;
     justify-content: center;
@@ -79,5 +85,4 @@ ul {
     padding: 20px; 
     border-radius: 10px;
 }
-
   
