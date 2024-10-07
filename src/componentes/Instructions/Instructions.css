@@ -24,14 +24,13 @@
     font-size: 2rem;
     font-weight: bold;
     text-align: center; 
-    color: #000;
     margin-top: 20px;
 }
 
 .instructions-info {
     max-width: 700px;
     width: 100%;
-    color: #000;
+    color: #10506b;
     border-radius: 10px;
     background-color: #81caf1;
     display: flex;
@@ -48,6 +47,7 @@
     flex-direction: column;
     align-items: center;
     background-color: #81caf1;
+    color:#10506b;
     width: 100%;
     max-width: 500px;
     margin: 20px 0;
@@ -60,6 +60,7 @@
     font-size: 24px;
     font-weight: bold;
     margin-bottom: 10px;
+    color: #10506b
 }
 
 .control-items {
@@ -123,10 +124,12 @@
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 20px;
+    color: #10506b;
 }
 
 .rules, .objects {
     width: 100%;
+    color: #10506b;
     background-color: #81caf1;
     margin-top: 20px;
     border-radius: 16px;
