@@ -25,12 +25,10 @@ function Main() {
     return(
         <container className="container-fluid">
             { information && (
-                // <div className="popup">
-                //     <div className="popup-inner">
                 <div>
                     <Information/>
                     <div className='mt-3 close-btn-container'>
-                        <button className='close-btn' onClick={toggleInformation}>Close</button>
+                        <button className='close-btn' style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={toggleInformation}>CLOSE</button>
                     </div>
                 </div>
             ) }
@@ -38,7 +36,7 @@ function Main() {
                 <div>
                     <Game/>
                     <div className='mt-3 close-btn-container'>
-                        <button className='close-btn' onClick={toggleGame}>Close</button>
+                        <button className='close-btn' style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={toggleGame}>CLOSE</button>
                     </div>
                 </div>
                 
@@ -47,16 +45,16 @@ function Main() {
                  <div>
                     {!showPopup && (
                         <div>
-                            <h1 className='menu-title d-flex flex-row justify-content-center align-items-center'>GAME</h1>
+                            <h1 id='title' className='menu-title d-flex flex-row justify-content-center align-items-center '>Guardians of Purity</h1>
                             <div className='main-menu'>
                                 <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
-                                    <button className={`menu-btn`} onClick={toggleGame}>PLAY</button>
+                                    <button className={`menu-btn d-flex justify-content-center align-items-center`} style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={toggleGame}>PLAY</button>
                                 </div>
                                 <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
-                                    <button className={`menu-btn`}  onClick={togglePopup} >INSTRUCTIONS</button>
+                                    <button className={`menu-btn d-flex justify-content-center align-items-center`} style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={togglePopup} >INSTRUCTIONS</button>
                                 </div>
-                                <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
-                                    <button className={`menu-btn`} onClick={toggleInformation}>INFORMATION</button>
+                                <div className='mb-3 d-flex flex-row justify-content-center align-items-center  '>
+                                    <button className={`menu-btn d-flex justify-content-center align-items-center`} style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace' ,color:'#10506b'}} onClick={toggleInformation}>INFORMATION</button>
                                 </div>
                             </div>
                         </div>
@@ -67,7 +65,7 @@ function Main() {
                         <div className="popup-inner">
                             <Instructions/>
                             <div className='close-btn-container'>
-                                <button className='close-btn' onClick={togglePopup}>Close</button>
+                                <button className='close-btn' style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={togglePopup}>CLOSE</button>
                             </div>
                         </div>
                     </div>

@@ -24,6 +24,7 @@ export default function Game()
     let marginTop = 0;
     let lastDirection = "right";
 
+
     const player = useRef({
         width: 50,
         height: 50,
@@ -147,7 +148,7 @@ export default function Game()
             }
 
             setLasagnaCaught(false)
-            lasagna.current.y = -30; 
+            lasagna.current.y = -30;
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
         }
     }
@@ -162,7 +163,7 @@ export default function Game()
             player.current.y + player.current?.height >= lasagna.current.y
         ) 
         {
-            lasagna.current.y = -30; 
+            lasagna.current.y = -30;
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
             setPoints((prev) => prev + 1);
             setLasagnaCaught(true)

@@ -8,7 +8,7 @@ function Instractions() {
     <div className="instructions-container" >
         <div class="row">
             <div class="col-md-12" id="content">
-                <h1 className="intructions-title">INSTRUCTIONS</h1>
+                <h1 className="intructions-title" style={{ color: "#10506b"}} >INSTRUCTIONS</h1>
                 <div className="instructions-info">
                     <p className="game-info">
                         Control the trash bin using the arrow keys to catch the objects falling
