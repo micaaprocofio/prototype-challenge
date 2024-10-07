@@ -6,7 +6,6 @@ import lemon from '../Game/img/lemon.png'
 import jugDetergent from '../Game/img/jugDetergent.png'
 import bottleDroplet from '../Game/img/bottleDroplet.png'
 import { PauseButton } from '../../atoms/PauseButton';
-import { HelpButton } from '../../atoms/HelpButton';
 
 export default function Game() 
 {
@@ -25,8 +24,6 @@ export default function Game()
 
     let marginTop = 0;
     let lastDirection = "right";
-    
-    const [isHelpActive, setIsHelpActive] = useState(false);
     
     let isPaused = useRef(false);
     let isHelpPaused = useRef(false);
@@ -254,16 +251,6 @@ export default function Game()
         }
     }, [phLevel]);
 
-    const pauseGame = () => {
-        if (!isPaused.current && !isHelpPaused.current) {
-            isPaused.current = true;
-            prevSpeedPlayer.current = player.current.speed;
-            prevSpeedLasagna.current = lasagna.current.speed;
-            player.current.speed = 0;
-            lasagna.current.speed = 0;
-        }
-    };
-
     const togglePause = () => {
          if (isHelpPaused.current) return;
     
@@ -278,45 +265,11 @@ export default function Game()
             lasagna.current.speed = prevSpeedLasagna.current;
             update();
         }
-    };
-      
-
-    const pauseForHelp = () => {
-        setIsHelpActive(true);
-        if (!isHelpPaused.current) {
-            isHelpPaused.current = true;
-            prevSpeedPlayer.current = player.current.speed;
-            prevSpeedLasagna.current = lasagna.current.speed;
-            player.current.speed = 0;
-            lasagna.current.speed = 0;
-        }
-    };
-
-    const resumeGame = () => {
-        if (isPaused.current || isHelpPaused.current) return;
-
-        player.current.speed = prevSpeedPlayer.current;
-        lasagna.current.speed = prevSpeedLasagna.current;
-        update();
-    };
-
-    const closeHelp = () => {
-        setIsHelpActive(false);
-        if (isHelpPaused.current) {
-            isHelpPaused.current = false;
-            if (!isPaused.current) {
-                player.current.speed = prevSpeedPlayer.current;
-                lasagna.current.speed = prevSpeedLasagna.current;
-                update();
-            }
-        }
-    };
-    
+    };    
 
     return (
         <div id='game'>
-            {!isHelpActive && <PauseButton onClick={togglePause} isPaused={isPaused.current} />}
-            <HelpButton pauseGame={pauseForHelp} resumeGame={closeHelp}/>
+            <PauseButton onClick={togglePause} isPaused={isPaused.current} />
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <label id='points'>Points: {points}</label>
             </div>
