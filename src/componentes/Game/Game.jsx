@@ -1,236 +1,243 @@
-import { useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
 import robotImageReverse from '../Game/img/robot-reverse.png'
 
 export default function Game() 
 {
-    const canvasRef = useRef(null);  // Create a reference to the canvas element
+    const canvasRef = useRef(null);
+    const ctxRef = useRef(null);
     const robotImage = process.env.PUBLIC_URL + '/robot.png';
 
-    var phLevel = 7
-    var points = 0
-    var marginTop = 0
-    let lasagnaCaught = false;
+    const [points, setPoints] = useState(0);
+    const [lasagnaCaught, setLasagnaCaught] = useState(false)
+    const [phLevel, setPhLevel] = useState(7.0)
+
+    let marginTop = 0;
+    let lastDirection = "right";
+
+    // Variables del jugador
+    const player = useRef({
+        width: 50,
+        height: 50,
+        x: 0, // Inicialización temporal
+        y: 0, // Inicialización temporal
+        speed: 2.5,
+        dx: 0
+    });
+
+    // Variables de la lasaña
+    const lasagna = useRef({
+        width: 30,
+        height: 30,
+        x: 0,
+        y: -30, // Comienza fuera de la vista
+        speed: 1
+    });
+
+    const lasagnaImg = new Image();
+    lasagnaImg.src = lasagnaImageSrc;
+
+    const robotImg = new Image();
+    robotImg.src = robotImage;
+
+    const robotImgReverse = new Image();
+    robotImgReverse.src = robotImageReverse;
     
     useEffect(() => 
     {
-        var lastDirection = "right"
-
         const canvas = canvasRef.current;
-        const ctx = canvas.getContext("2d");  
-        
-        const player = 
+        ctxRef.current = canvas.getContext("2d");
+
+        // Inicializar la posición del jugador
+        player.current.x = canvas.width / 2 - player.current.width / 2; // Centrado en el canvas
+        player.current.y = canvas.height - player.current.height - 60; // Un poco por encima del fondo
+
+        const handleKeyDown = (e) => 
         {
-            width: 50,
-            height: 50,
-            x: canvas.width / 2 - 25,
-            y: canvas.height - 60,
-            speed: 2.5,
-            dx: 0
+            if (e.key === "ArrowRight" || e.key === "Right") 
+            {
+                player.current.dx = player.current.speed;
+            }
+            if (e.key === "ArrowLeft" || e.key === "Left") 
+            {
+                player.current.dx =- player.current.speed;
+            }
         };
 
-        const lasagna = 
+        const handleKeyUp = (e) => 
         {
-            width: 30,
-            height: 30,
-            x: Math.random() * (canvas.width - 30),
-            y: 0,
-            speed: 1.3
+            if (e.key === "ArrowRight" || e.key === "Right" || e.key === "ArrowLeft" || e.key === "Left") 
+            {
+                player.current.dx = 0;
+            }
         };
-        console.log("lasagna creada")
 
-        const lasagnaImg = new Image();
-        lasagnaImg.src = lasagnaImageSrc;
+        document.addEventListener("keydown", handleKeyDown);
+        document.addEventListener("keyup", handleKeyUp);
 
-        const robotImg = new Image();
-        robotImg.src = robotImage;
+        // Limpieza de eventos
+        return () => 
+        {
+            document.removeEventListener("keydown", handleKeyDown);
+            document.removeEventListener("keyup", handleKeyUp);
+        };
+    }, []);
 
-        const robotImgReverse = new Image();
-        robotImgReverse.src = robotImageReverse;
+    function drawLasagnaAndPlayer() 
+    {
+        const ctx = ctxRef.current;
+        if (!ctx) return;
 
+        ctx.drawImage(lasagnaImg, lasagna.current.x, lasagna.current.y, lasagna.current?.width, lasagna.current?.height);
+
+        let imageWidth = 100;
+        let imageHeight = 100;
+
+        if (player.current.dx > 0) 
+        {
+            ctx.drawImage(robotImg, player.current.x, player.current.y, imageWidth, imageHeight);
+            lastDirection = "right";
+        } 
+        else if (player.current.dx < 0) 
+        {
+            ctx.drawImage(robotImgReverse, player.current.x, player.current.y, imageWidth, imageHeight);
+            lastDirection = "left";
+        } 
+        else 
+        {
+            ctx.drawImage(lastDirection === "right" ? robotImg : robotImgReverse, player.current.x, player.current.y, imageWidth, imageHeight);
+        }
+    }
+
+    function movePlayer() 
+    {
+        player.current.x += player.current.dx;
+
+        if (player.current.x < 0) 
+        {
+            player.current.x = 0;
+        }
+        if (player.current.x + player.current?.width > canvasRef.current?.width)
+        {
+            player.current.x = canvasRef.current?.width - player.current?.width;
+        }
+    }
+
+    function moveLasagna() 
+    {
+        lasagna.current.y += lasagna.current.speed;
+
+        if (lasagna.current.y > canvasRef.current?.height) 
+        {
+            if (!lasagnaCaught) 
+            {
+                marginTop += 3;
+                setPhLevel((ph) => ph - 0.5)
+
+                const lineElement = document.getElementById('line');
+                
+                if (lineElement) 
+                {
+                    lineElement.style.marginTop = `${marginTop}rem`;
+                }
+            }
+
+            setLasagnaCaught(false)
+            lasagna.current.y = -30; // Reiniciar la lasaña fuera de la vista
+            lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
+        }
+    }
+
+    function detectCollision() 
+    {
+        if 
+        (
+            player.current.x <= lasagna.current.x + lasagna.current?.width &&
+            player.current.x + player.current?.width >= lasagna.current.x &&
+            player.current.y <= lasagna.current.y + lasagna.current?.height &&
+            player.current.y + player.current?.height >= lasagna.current.y
+        ) 
+        {
+            lasagna.current.y = -30; // Reiniciar la lasaña fuera de la vista
+            lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
+            setPoints((prev) => prev + 1);
+            setLasagnaCaught(true)
+        }
+    }
+
+    function pointsDifficulty() 
+    {
+        if (points > 12)
+        {
+            lasagna.current.speed = 1.6;
+        }
+        if (points > 25) 
+        {
+            lasagna.current.speed = 2;
+        }
+        if (points > 45) 
+        {
+            lasagna.current.speed = 2.3;
+            player.current.speed = 3.3;
+        }
+        if (points > 80) 
+        {
+            lasagna.current.speed = 2.7;
+            player.current.speed = 4.0;
+        }
+        if (points > 120) 
+        {
+            lasagna.current.speed = 3.3;
+            player.current.speed = 5;
+        }
+    }
+
+    function clear() 
+    {
+        ctxRef.current?.clearRect(0, 0, canvasRef.current?.width, canvasRef.current?.height);
+    }
+
+    function update() 
+    {
+        clear();
+        drawLasagnaAndPlayer();
+        detectCollision();
+        movePlayer();
+        moveLasagna();
+        pointsDifficulty();
+        requestAnimationFrame(update);
+    }
+
+    useEffect(() => 
+    {
         lasagnaImg.onload = () => 
         {
-            console.log("Image loaded successfully");
-
-            function drawLasagnaAndPlayer() 
-            {
-
-                ctx.drawImage(lasagnaImg, lasagna.x, lasagna.y, lasagna.width, lasagna.height);
-
-                let imageWidth = 100;
-                let imageHeight = 100;
-
-                if (player.dx > 0 ) 
-                {
-                    ctx.drawImage(robotImg, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
-                    lastDirection = "right"
-                } 
-                else if (player.dx < 0) 
-                {
-                    ctx.drawImage(robotImgReverse, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
-                    lastDirection = "left"
-                }
-                else
-                {
-                    if (lastDirection === "right") 
-                    {
-                        ctx.drawImage(robotImg, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
-                    } 
-                    else if (lastDirection === "left") 
-                    {
-                        ctx.drawImage(robotImgReverse, player.x - (imageWidth - player.width) / 2, player.y - (imageHeight - player.height) / 2, imageWidth, imageHeight);
-                    }
-                }
-            }
-
-            function movePlayer() 
-            {
-                player.x += player.dx;
-
-                if (player.x < 0) player.x = 0;
-                if (player.x + player.width > canvas.width) player.x = canvas.width - player.width;
-            }
-
-            function moveLasagna() 
-            {
-                lasagna.y += lasagna.speed;
-
-                if (lasagna.y + lasagna.height >= canvas.height) 
-                {
-                    if (!lasagnaCaught) 
-                    {
-                        marginTop += 3;
-                        phLevel -= 0.5;
-                        const lineElement = document.getElementById('line');
-
-                        if (lineElement) 
-                        {
-                            lineElement.style.marginTop = marginTop + 'rem';
-                        }
-                        console.log("La lasaña llegó al final");
-
-                        if (phLevel < 6.0) 
-                        {
-                            alert('Has perdido. El pH ha bajado demasiado.');
-                            window.location.reload();
-                        }
-                    }
-
-                    lasagnaCaught = false;
-                    lasagna.y = 0;
-                    lasagna.x = Math.random() * (canvas.width - lasagna.width);
-                }
-            }
-
-            function detectCollision() 
-            {
-                if (
-                    player.x <= lasagna.x + lasagna.width &&
-                    player.x + player.width >= lasagna.x &&
-                    player.y <= lasagna.y + lasagna.height &&
-                    player.y + player.height >= lasagna.y
-                ) 
-                {
-                
-                    lasagna.y = 0;
-                    lasagna.x = Math.random() * (canvas.width - lasagna.width);
-                    points += 1;
-                    const pointsElement = document.getElementById('points');
-                    lasagnaCaught = true;
-                    
-                    if (pointsElement) 
-                    {
-                        pointsElement.innerText = `Points: ${points}`;
-                    }
-                }
-            }
-
-            function pointsDifficulty()
-            {
-                if (points > 12)
-                {
-                    lasagna.speed = 1.6;
-                }
-                if (points > 25)
-                {
-                    lasagna.speed = 2;
-                }
-                if (points > 45)
-                {
-                    lasagna.speed = 2.3;
-                    player.speed = 3.3;
-                }
-                if (points > 80)
-                {
-                    lasagna.speed = 2.7;
-                    player.speed = 4.0;
-                }
-                if (points > 120)
-                {
-                    lasagna.speed = 3.3;
-                    player.speed = 5;
-                }
-            }
-
-            function clear() 
-            {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-
-            function update() 
-            {
-                clear();
-                drawLasagnaAndPlayer();
-                detectCollision();
-                movePlayer();
-                moveLasagna();
-                pointsDifficulty();
-                requestAnimationFrame(update);
-            }
-
-            document.addEventListener("keydown", (e) => 
-            {
-                if (e.key === "ArrowRight" || e.key === "Right") 
-                {
-                    player.dx = player.speed;
-                } 
-                if (e.key === "ArrowLeft" || e.key === "Left") 
-                {
-                    player.dx = -player.speed;
-                    console.log(phLevel)
-                }
-            });
-
-            document.addEventListener("keyup", (e) => 
-            {
-                if (e.key === "ArrowRight" || e.key === "Right" || e.key === "ArrowLeft" || e.key === "Left")
-                {
-                    player.dx = 0;
-                }
-            });
-
             update();
         };
-
-        lasagnaImg.onerror = () => 
-        {
-            console.error("Failed to load the image");
-        };
-        
     }, []);
+
+    useEffect(() => 
+    {
+        if (phLevel < 6.0) 
+        {
+            alert('Has perdido. El pH ha bajado demasiado.');
+            window.location.reload();
+        }
+    }, [phLevel]);
 
     return (
         <div id='game'>
-            <div style={{display:'flex', justifyContent:'center', alignItems:'center'}}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <label id='points'>Points: {points}</label>
             </div>
-            <div id='background' style={{display:"flex"}}>
+            <div id='background' style={{ display: "flex" }}>
                 <canvas ref={canvasRef} id="gameCanvas" width="800" height="500"></canvas>
                 <div id="ph">
-                    <div id="line"/>
+                    <div id="line" />
                 </div>
             </div>
-        </div>      
+        </div>
     );
 }
+
