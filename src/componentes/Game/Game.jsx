@@ -167,6 +167,9 @@ export default function Game()
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
             setPoints((prev) => prev + 1);
             setLasagnaCaught(true)
+            const newIcon = getRandomIcon();
+            setRandomIcon(newIcon);
+
         }
     }
 
