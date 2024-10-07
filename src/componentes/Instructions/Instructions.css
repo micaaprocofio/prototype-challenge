@@ -57,7 +57,8 @@
     width: 100%;
 }
 
-.game-info {
+.game-info 
+{
     font-size: 14px;
     font-weight: 500;
     margin: 20px 0;
