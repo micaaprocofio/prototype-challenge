@@ -6,6 +6,7 @@ import lemon from '../Game/img/lemon.png'
 import jugDetergent from '../Game/img/jugDetergent.png'
 import bottleDroplet from '../Game/img/bottleDroplet.png'
 import { PauseButton } from '../../atoms/PauseButton';
+import { HelpButton } from '../../atoms/HelpButton';
 
 export default function Game() 
 {
@@ -25,8 +26,10 @@ export default function Game()
     let marginTop = 0;
     let lastDirection = "right";
     
+    const [isHelpActive, setIsHelpActive] = useState(false);
+    
     let isPaused = useRef(false);
-
+    let isHelpPaused = useRef(false);
     let prevSpeedPlayer = useRef();
     let prevSpeedLasagna = useRef();
 
@@ -181,7 +184,7 @@ export default function Game()
     function pointsDifficulty() 
     {
         if (isPaused.current) return;
-        
+
         if (points > 12)
         {
             lasagna.current.speed = 1.6;
@@ -251,31 +254,71 @@ export default function Game()
         }
     }, [phLevel]);
 
-    const togglePause = () => {
-        isPaused.current = !isPaused.current; // Alternar estado de pausa
-        if (isPaused.current) { // Si se pausa, guarda las velocidades
+    const pauseGame = () => {
+        if (!isPaused.current && !isHelpPaused.current) {
+            isPaused.current = true;
             prevSpeedPlayer.current = player.current.speed;
             prevSpeedLasagna.current = lasagna.current.speed;
-    
-            // Pausa las velocidades
             player.current.speed = 0;
             lasagna.current.speed = 0;
+        }
+    };
+
+    const togglePause = () => {
+         if (isHelpPaused.current) return;
     
-            console.log("Velocidad guardada:", prevSpeedPlayer, prevSpeedLasagna);
-        } else { // Si se reanuda, restaura las velocidades
+        isPaused.current = !isPaused.current;
+        if (isPaused.current) {
+            prevSpeedPlayer.current = player.current.speed;
+            prevSpeedLasagna.current = lasagna.current.speed;
+            player.current.speed = 0;
+            lasagna.current.speed = 0;
+        } else {
             player.current.speed = prevSpeedPlayer.current;
             lasagna.current.speed = prevSpeedLasagna.current;
-    
-            console.log("Velocidad restaurada:", player.current.speed, lasagna.current.speed);
-            update(); // Reinicia el bucle de actualización
+            update();
         }
-    };    
+    };
+      
+
+    const pauseForHelp = () => {
+        setIsHelpActive(true);
+        if (!isHelpPaused.current) {
+            isHelpPaused.current = true;
+            prevSpeedPlayer.current = player.current.speed;
+            prevSpeedLasagna.current = lasagna.current.speed;
+            player.current.speed = 0;
+            lasagna.current.speed = 0;
+        }
+    };
+
+    const resumeGame = () => {
+        if (isPaused.current || isHelpPaused.current) return;
+
+        player.current.speed = prevSpeedPlayer.current;
+        lasagna.current.speed = prevSpeedLasagna.current;
+        update();
+    };
+
+    const closeHelp = () => {
+        setIsHelpActive(false);
+        if (isHelpPaused.current) {
+            isHelpPaused.current = false;
+            if (!isPaused.current) {
+                player.current.speed = prevSpeedPlayer.current;
+                lasagna.current.speed = prevSpeedLasagna.current;
+                update();
+            }
+        }
+    };
+    
 
     return (
         <div id='game'>
-            <PauseButton onClick={togglePause} isPaused={isPaused.current} />
+            {!isHelpActive && <PauseButton onClick={togglePause} isPaused={isPaused.current} />}
+            <HelpButton pauseGame={pauseForHelp} resumeGame={closeHelp}/>
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <label id='points'>Points: {points}</label>
+            <label id='points'>Points: {points}</label>
             </div>
             <div id='background' style={{ display: "flex" }}>
                 <canvas ref={canvasRef} id="gameCanvas" width="800" height="500"></canvas>

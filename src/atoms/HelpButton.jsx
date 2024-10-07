@@ -1,26 +1,22 @@
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Instructions from '../componentes/Instructions/Instructions.jsx';
+import { useState } from 'react';
+import { GenericPage } from '../componentes/PausePage/GenericPage';
 
-export function HelpButton() {
-    
-    const [instructions, setinstructions] = useState(false);
+export function HelpButton({ pauseGame, resumeGame }) {
+    const [instructions, setInstructions] = useState(false);
 
-
-    function ClickedHelp()
-    {
-        if (!instructions){
-
-            setinstructions = true;
-            
-            <Instructions/> //ver bien como era la bandera booleana y que no se repita indefinidamente el componente ademas de pausar la partida (ver eso antes)
-
-        } 
+    function ButtonClick() {
+        setInstructions((prevState) => !prevState);
+        if (!instructions) {
+            pauseGame();
+        } else {
+            resumeGame();
+        }
     }
 
-    return(
-
-        <button onClick = {ClickedHelp}>?</button>
-
+    return (
+        <div>
+            {!instructions && <button onClick={ButtonClick}>?</button>}
+            {instructions && <GenericPage closePage={ButtonClick} />}
+        </div>
     );
 }
