@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import "../Game/Game.css";
-import lasagnaImageSrc from '../Game/img/lasana.avif';
 import robotImageReverse from '../Game/img/robot-reverse.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSoap, faJugDetergent, faLemon, faBottleDroplet} from '@fortawesome/free-solid-svg-icons';
+import soap from '../Game/img/soap.png'
+import lemon from '../Game/img/lemon.png'
+import jugDetergent from '../Game/img/jugDetergent.png'
+import bottleDroplet from '../Game/img/bottleDroplet.png'
 
 export default function Game() 
 {
@@ -14,6 +15,11 @@ export default function Game()
     const [points, setPoints] = useState(0);
     const [lasagnaCaught, setLasagnaCaught] = useState(false)
     const [phLevel, setPhLevel] = useState(7.0)
+
+    const icons = [soap, lemon, jugDetergent, bottleDroplet]
+    const [randomIcon, setRandomIcon] = useState(soap)
+
+    const lasagnaImgRef = useRef(new Image()); 
 
     let marginTop = 0;
     let lastDirection = "right";
@@ -28,15 +34,12 @@ export default function Game()
     });
 
     const lasagna = useRef({
-        width: 30,
-        height: 30,
+        width: 50,
+        height: 50,
         x: 0,
         y: -30, 
         speed: 1
     });
-
-    const lasagnaImg = new Image();
-    lasagnaImg.src = lasagnaImageSrc;
 
     const robotImg = new Image();
     robotImg.src = robotImage;
@@ -88,7 +91,7 @@ export default function Game()
         const ctx = ctxRef.current;
         if (!ctx) return;
 
-        ctx.drawImage(lasagnaImg, lasagna.current.x, lasagna.current.y, lasagna.current?.width, lasagna.current?.height);
+        ctx.drawImage(lasagnaImgRef.current, lasagna.current.x, lasagna.current.y, lasagna.current.width, lasagna.current.height);
 
         let imageWidth = 100;
         let imageHeight = 100;
@@ -140,6 +143,7 @@ export default function Game()
                 {
                     lineElement.style.marginTop = `${marginTop}rem`;
                 }
+                setRandomIcon(getRandomIcon())
             }
 
             setLasagnaCaught(false)
@@ -192,6 +196,11 @@ export default function Game()
         }
     }
 
+    function getRandomIcon()
+    {
+        return icons[Math.floor(Math.random() * icons.length)]
+    }
+    
     function clear() 
     {
         ctxRef.current?.clearRect(0, 0, canvasRef.current?.width, canvasRef.current?.height);
@@ -210,11 +219,16 @@ export default function Game()
 
     useEffect(() => 
     {
-        lasagnaImg.onload = () => 
+        lasagnaImgRef.current.onload = () =>
         {
             update();
         };
     }, []);
+
+    useEffect(() => 
+    {
+        lasagnaImgRef.current.src = randomIcon;
+    },[randomIcon])
 
     useEffect(() => 
     {
