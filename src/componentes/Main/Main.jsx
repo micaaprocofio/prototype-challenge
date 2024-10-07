@@ -25,6 +25,8 @@ function Main() {
     return(
         <container className="container-fluid">
             { information && (
+                // <div className="popup">
+                //     <div className="popup-inner">
                 <div>
                     <Information/>
                     <div className='mt-3 close-btn-container'>
@@ -43,30 +45,33 @@ function Main() {
             )}
             {!game && !information && (
                  <div>
-                    <h1 className='menu-title d-flex flex-row justify-content-center align-items-center'>GAME</h1>
-                    <div className='main-menu'>
-                        <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
-                            <button className={`menu-btn`} onClick={toggleGame}>PLAY</button>
-                        </div>
-                        <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
-                            <button className={`menu-btn`}  onClick={togglePopup} >INSTRUCTIONS</button>
-                        </div>
-                        <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
-                            <button className={`menu-btn`} onClick={toggleInformation}>INFORMATION</button>
-                        </div>
-                    </div>
-                    <div>
-                        {showPopup && (
-                        <div className="popup">
-                            <div className="popup-inner">
-                                <Instructions/>
-                                <div className='close-btn-container'>
-                                    <button className='close-btn' onClick={togglePopup}>Close</button>
+                    {!showPopup && (
+                        <div>
+                            <h1 className='menu-title d-flex flex-row justify-content-center align-items-center'>GAME</h1>
+                            <div className='main-menu'>
+                                <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
+                                    <button className={`menu-btn`} onClick={toggleGame}>PLAY</button>
+                                </div>
+                                <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
+                                    <button className={`menu-btn`}  onClick={togglePopup} >INSTRUCTIONS</button>
+                                </div>
+                                <div className='mb-3 d-flex flex-row justify-content-center align-items-center'>
+                                    <button className={`menu-btn`} onClick={toggleInformation}>INFORMATION</button>
                                 </div>
                             </div>
                         </div>
-                        )}
+                        )
+                    }
+                    {showPopup && (
+                    <div className="popup">
+                        <div className="popup-inner">
+                            <Instructions/>
+                            <div className='close-btn-container'>
+                                <button className='close-btn' onClick={togglePopup}>Close</button>
+                            </div>
+                        </div>
                     </div>
+                    )}
                  </div>   
                 )
             }

@@ -39,6 +39,11 @@
     justify-content: center;
     align-items: center;
 }
+
+button.close-btn
+{
+    margin-top:40px;
+}
   
 button.menu-btn:hover, button.close-btn:hover {
     background-color: #66b5d7; 
@@ -48,25 +53,31 @@ button.menu-btn:hover, button.close-btn:hover {
 .container-fluid {
     margin-top: 20px;
 }
-   
-.popup  {
-    width: 100%;
-    max-width: 800px;
-    height: 150vh;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
-    background-color: rgba(78, 137, 162, 0.788);
-    border-radius: 8px;
-}
   
 ul {
     padding-left: 20px;
 }
   
+  
+.popup {
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh; 
+    margin: 5vh auto; 
+    padding: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(78, 137, 162, 0.788);
+    border-radius: 8px;
+    overflow-y: auto; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
 .popup-inner {
-    padding: 100px;
+    padding: 20px; 
     border-radius: 10px;
 }
-  
+
   
