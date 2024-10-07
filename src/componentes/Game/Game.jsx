@@ -5,6 +5,7 @@ import soap from '../Game/img/soap.png'
 import lemon from '../Game/img/lemon.png'
 import jugDetergent from '../Game/img/jugDetergent.png'
 import bottleDroplet from '../Game/img/bottleDroplet.png'
+import { PauseButton } from '../../atoms/PauseButton';
 
 export default function Game() 
 {
@@ -23,7 +24,11 @@ export default function Game()
 
     let marginTop = 0;
     let lastDirection = "right";
+    
+    let isPaused = useRef(false);
 
+    let prevSpeedPlayer = useRef();
+    let prevSpeedLasagna = useRef();
 
     const player = useRef({
         width: 50,
@@ -175,6 +180,8 @@ export default function Game()
 
     function pointsDifficulty() 
     {
+        if (isPaused.current) return;
+        
         if (points > 12)
         {
             lasagna.current.speed = 1.6;
@@ -212,6 +219,7 @@ export default function Game()
 
     function update() 
     {
+        if (isPaused.current) return;
         clear();
         drawLasagnaAndPlayer();
         detectCollision();
@@ -243,8 +251,29 @@ export default function Game()
         }
     }, [phLevel]);
 
+    const togglePause = () => {
+        isPaused.current = !isPaused.current; // Alternar estado de pausa
+        if (isPaused.current) { // Si se pausa, guarda las velocidades
+            prevSpeedPlayer.current = player.current.speed;
+            prevSpeedLasagna.current = lasagna.current.speed;
+    
+            // Pausa las velocidades
+            player.current.speed = 0;
+            lasagna.current.speed = 0;
+    
+            console.log("Velocidad guardada:", prevSpeedPlayer, prevSpeedLasagna);
+        } else { // Si se reanuda, restaura las velocidades
+            player.current.speed = prevSpeedPlayer.current;
+            lasagna.current.speed = prevSpeedLasagna.current;
+    
+            console.log("Velocidad restaurada:", player.current.speed, lasagna.current.speed);
+            update(); // Reinicia el bucle de actualización
+        }
+    };    
+
     return (
         <div id='game'>
+            <PauseButton onClick={togglePause} isPaused={isPaused.current} />
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <label id='points'>Points: {points}</label>
             </div>
