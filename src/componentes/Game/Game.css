@@ -1,14 +1,16 @@
 
 #gameCanvas {
     background-image: url('../Game/img/background-gamex4.png');
-    background-size: cover; 
+    background-size:1100px; 
     display: block;
-    margin-left:40px;
+    margin: 0 auto;
     background-position: center;
-    width: 70%; 
-    max-height: 80vh; 
 }
 
+#points{
+    font-size: 35px;
+    font-weight: bold;
+}
 
 #game{
     display: flex;
@@ -20,9 +22,9 @@
 
 #ph
 {
-    width: 15%;
-    max-height: 500px;
-    align-items: flex-end;
+    width: 160px;
+    height: 500px;
+    align-items: end;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -36,7 +38,7 @@
 #line
 {
     background-color: black;
-    width: 10%;
+    width: 50px;
     max-width: 50px;
     height: 5px;
     position: relative;

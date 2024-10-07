@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import "../Game/Game.css";
 import lasagnaImageSrc from '../Game/img/lasana.avif';
 import robotImageReverse from '../Game/img/robot-reverse.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSoap, faJugDetergent, faLemon, faBottleDroplet} from '@fortawesome/free-solid-svg-icons';
 
 export default function Game() 
 {
@@ -16,22 +18,20 @@ export default function Game()
     let marginTop = 0;
     let lastDirection = "right";
 
-    // Variables del jugador
     const player = useRef({
         width: 50,
         height: 50,
-        x: 0, // Inicialización temporal
-        y: 0, // Inicialización temporal
+        x: 0, 
+        y: 0, 
         speed: 2.5,
         dx: 0
     });
 
-    // Variables de la lasaña
     const lasagna = useRef({
         width: 30,
         height: 30,
         x: 0,
-        y: -30, // Comienza fuera de la vista
+        y: -30, 
         speed: 1
     });
 
@@ -49,9 +49,8 @@ export default function Game()
         const canvas = canvasRef.current;
         ctxRef.current = canvas.getContext("2d");
 
-        // Inicializar la posición del jugador
-        player.current.x = canvas.width / 2 - player.current.width / 2; // Centrado en el canvas
-        player.current.y = canvas.height - player.current.height - 60; // Un poco por encima del fondo
+        player.current.x = canvas.width / 2 - player.current.width / 2; 
+        player.current.y = canvas.height - player.current.height - 60;
 
         const handleKeyDown = (e) => 
         {
@@ -144,7 +143,7 @@ export default function Game()
             }
 
             setLasagnaCaught(false)
-            lasagna.current.y = -30; // Reiniciar la lasaña fuera de la vista
+            lasagna.current.y = -30; 
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
         }
     }
@@ -159,7 +158,7 @@ export default function Game()
             player.current.y + player.current?.height >= lasagna.current.y
         ) 
         {
-            lasagna.current.y = -30; // Reiniciar la lasaña fuera de la vista
+            lasagna.current.y = -30; 
             lasagna.current.x = Math.random() * (canvasRef.current?.width - lasagna.current?.width);
             setPoints((prev) => prev + 1);
             setLasagnaCaught(true)

@@ -3,7 +3,7 @@ import './information.css';
 
 export default function InformationPage() {
     return (
-    <div className = "information-container">
+        <div className = "information-container">
           <h1 className="information-title">
             INFORMATION
           </h1>
@@ -46,5 +46,6 @@ export default function InformationPage() {
             </p>
           </div>
       </div>
+    
     );
   }
