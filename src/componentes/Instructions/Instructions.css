@@ -1,5 +1,5 @@
-@import url(https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css);
-@import url(https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css);
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css');
 
 .instructions-container {
     display: flex;
@@ -7,13 +7,8 @@
     align-items: center;
     justify-content: center; 
     width: 100%;
-    height: 100%;
+    padding: 20px;
 }
-
-@keyframes ripple {
-    0% { background-position: 0 0; }
-    100% { background-position: 100% 100%; }
-  }
 
 .instructions-title {
     font-size: 2rem;
@@ -25,14 +20,17 @@
 
 .instructions-info {
     max-width: 700px;
-    width: 700px;
+    width: 100%;
     color: #000;
     border-radius: 10px;
     background-color: #81caf1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .controls {
@@ -40,8 +38,9 @@
     flex-direction: column;
     align-items: center;
     background-color: #81caf1;
-    width: 500px;
-    margin: 20px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px 0;
     padding: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -50,101 +49,98 @@
 #control-title {
     font-size: 24px;
     font-weight: bold;
-}
-.control-items {
-    text-align: left;
+    margin-bottom: 10px;
 }
 
-.game-info {
-    font-size: 17px;
-    font-weight:500;
-    margin: 40px;
+.control-items {
+    text-align: left;
+    width: 100%;
+}
+
+.game-info 
+{
+    font-size: 14px;
+    font-weight: 500;
+    margin: 20px 0;
+    text-align: center;
 }
 
 .bi {
-    font-size:20px;
+    font-size: 20px;
 }
 
 #content {
-    display:flex;
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
 }
 
 .items {
     text-align: left;
+    padding-left: 20px;
 }
 
 .items li {
-    margin:10px;
+    margin: 10px 0;
 }
 
 .item-icons li {
     list-style-type: none;
 }
 
-.soap {
-    margin-left: 30px;
-}
-
 .icon {
     font-size: 30px;
+    margin-right: 5px;
 }
 
 .game-mecanic {
-    margin:50px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    width: 100%;
 }
 
-#rules {
+#rules, #object-title {
     text-align: left;
     margin-left: 0;
     font-weight: bold;
     font-size: 24px;
-
-}
-
-#object-title {
-    font-weight: bold;
-    text-align: left;
-    margin-left: 0;
-    margin-top: 20px;
-    font-size: 24px;
-
+    margin-bottom: 10px;
 }
 
 #game-mecanics-title {
     font-size: 28px;
     font-weight: bold;
+    margin-bottom: 20px;
 }
 
 .rules, .objects {
-    max-height:  100%;
-    width: 700px;
-    height: 200px;
+    width: 100%;
     background-color: #81caf1;
     margin-top: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding:40px;
-
+    padding: 20px;
 }
+
 .rules {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: center;
 }
 
 .objects {
-    display:flex;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 
 .icons {
     display: flex;
-    flex-direction: row;
-    justify-content:space-around;
+    flex-wrap: wrap;
+    justify-content: space-around;
     list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
+

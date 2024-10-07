@@ -1,11 +1,14 @@
-#gameCanvas
-{
+
+#gameCanvas {
     background-image: url('../Game/img/background-gamex4.png');
-    background-size:1100px;
+    background-size: cover; 
     display: block;
-    margin: 0 auto;
+    margin-left:40px;
     background-position: center;
+    width: 70%; 
+    max-height: 80vh; 
 }
+
 
 #game{
     display: flex;
@@ -13,11 +16,13 @@
     justify-content: center;
     align-items: center;
 }
+
+
 #ph
 {
-    width: 160px;
-    height: 500px;
-    align-items: end;
+    width: 15%;
+    max-height: 500px;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -27,10 +32,13 @@
     background-image: url("../Game/img/PH-water-level.png");
 }
 
+
 #line
 {
     background-color: black;
-    width: 50px;
+    width: 10%;
+    max-width: 50px;
     height: 5px;
     position: relative;
 }
+
