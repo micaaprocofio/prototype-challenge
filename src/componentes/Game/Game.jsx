@@ -283,7 +283,7 @@ export default function Game()
         setInformation((prev) => !prev); 
         togglePause();
     };
-
+    
     return (
         <div id='container'>
             <div id='buttons'>
@@ -291,9 +291,11 @@ export default function Game()
                 <InstructionButton onClickInstruction={toggleInstruction} information={information} />
             </div>
             {information && (
-                <div className="instructions">
-                    <Instructions />
+            <div className="popup-game">
+                <div className="popup-inner-game">
+                    <Instructions/>
                 </div>
+            </div>
             )}
             <div id='game'>
                 <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
