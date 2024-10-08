@@ -1,0 +1,12 @@
+#pausa {
+    background: transparent;
+    border: none; 
+    font-size: 100px;
+    display: flex;
+    justify-content: flex-end;
+    position: fixed; 
+    right: 70px; 
+    top: 70px; 
+    font-size: 120px; 
+    
+}
