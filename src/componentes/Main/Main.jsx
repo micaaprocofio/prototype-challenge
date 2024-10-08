@@ -25,10 +25,12 @@ function Main() {
     return(
         <container className="container-fluid">
             { information && (
-                <div>
-                    <Information/>
-                    <div className='mt-3 close-btn-container'>
-                        <button className='close-btn' style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={toggleInformation}>CLOSE</button>
+                <div className="popup">
+                    <div className="popup-inner">
+                        <Information/>
+                        <div className='mt-3 close-btn-container'>
+                            <button className='close-btn' style={{ fontSize: '26px', fontWeight: '700', fontFamily:'monospace', color:'#10506b'}} onClick={toggleInformation}>CLOSE</button>
+                        </div>
                     </div>
                 </div>
             ) }
