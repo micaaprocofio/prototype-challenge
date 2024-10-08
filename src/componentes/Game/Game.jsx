@@ -5,6 +5,7 @@ import soap from '../Game/img/soap.png'
 import lemon from '../Game/img/lemon.png'
 import jugDetergent from '../Game/img/jugDetergent.png'
 import bottleDroplet from '../Game/img/bottleDroplet.png'
+import { PauseButton } from '../../atoms/PauseButton';
 
 export default function Game() 
 {
@@ -23,7 +24,11 @@ export default function Game()
 
     let marginTop = 0;
     let lastDirection = "right";
-
+    
+    let isPaused = useRef(false);
+    let isHelpPaused = useRef(false);
+    let prevSpeedPlayer = useRef();
+    let prevSpeedLasagna = useRef();
 
     const player = useRef({
         width: 50,
@@ -175,6 +180,8 @@ export default function Game()
 
     function pointsDifficulty() 
     {
+        if (isPaused.current) return;
+
         if (points > 12)
         {
             lasagna.current.speed = 1.6;
@@ -212,6 +219,7 @@ export default function Game()
 
     function update() 
     {
+        if (isPaused.current) return;
         clear();
         drawLasagnaAndPlayer();
         detectCollision();
@@ -243,10 +251,27 @@ export default function Game()
         }
     }, [phLevel]);
 
+    const togglePause = () => {
+         if (isHelpPaused.current) return;
+    
+        isPaused.current = !isPaused.current;
+        if (isPaused.current) {
+            prevSpeedPlayer.current = player.current.speed;
+            prevSpeedLasagna.current = lasagna.current.speed;
+            player.current.speed = 0;
+            lasagna.current.speed = 0;
+        } else {
+            player.current.speed = prevSpeedPlayer.current;
+            lasagna.current.speed = prevSpeedLasagna.current;
+            update();
+        }
+    };    
+
     return (
         <div id='game'>
+            <PauseButton onClick={togglePause} isPaused={isPaused.current} />
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <label id='points'>Points: {points}</label>
+            <label id='points'>Points: {points}</label>
             </div>
             <div id='background' style={{ display: "flex" }}>
                 <canvas ref={canvasRef} id="gameCanvas" width="800" height="500"></canvas>
