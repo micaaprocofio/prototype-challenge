@@ -38,6 +38,7 @@
     font-size: 50px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #10506b;
+    font-weight: 900;
 }
 
 .close-btn-container{
@@ -63,7 +64,6 @@ button.menu-btn:hover, button.close-btn:hover {
 ul {
     padding-left: 20px;
 }
-  
   
 .popup {
     width: 90%;

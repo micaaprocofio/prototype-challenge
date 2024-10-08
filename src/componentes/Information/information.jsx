@@ -4,9 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTemperatureHalf, faEarthAmericas, faDroplet, faBullseye,faQuestion } from '@fortawesome/free-solid-svg-icons';
 
 export default function InformationPage() {
+
     return (
         <div className = "information-container">
-          <h1 className="information-title">
+          <h1 className="information-title" style={{ color: "#10506b"}}>
             INFORMATION
           </h1>
           <div className="mb-8 card">
