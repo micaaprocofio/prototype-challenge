@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSoap, faJugDetergent, faLemon, faBottleDroplet} from '@fortawesome/free-solid-svg-icons';
 
-function Instractions() {
+function Instructions() {
   return (
     <div className="instructions-container" >
         <div class="col-md-12" id="content">
@@ -60,4 +60,4 @@ function Instractions() {
     </div>
   );
 }
-export default Instractions;
+export default Instructions;

@@ -3,15 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPause, faPlay, faCircleInfo } from '@fortawesome/free-solid-svg-icons'; // Corrected import
 import "../atoms/PauseButton.css"; 
 
-export const PauseButton = ({ onClick, isPaused }) => {
+export const InstructionButton = ({ onClickInstruction, information}) => {
     return (
-        
-            <button 
-                id='pause' 
-                onClick={onClick} 
+            <button
+                id='instructions' 
+                onClick={onClickInstruction} 
             >
-                <FontAwesomeIcon icon={isPaused ? faPlay : faPause} />
+                <FontAwesomeIcon icon={faCircleInfo} />
             </button>
-            
+      
     );
 };
